@@ -31,6 +31,7 @@ const SearchPage = () => {
         >
           Close
         </Link>
+
         <div className="search-books-input-wrapper">
           <input
             type="text"
@@ -38,6 +39,7 @@ const SearchPage = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
+        
       </div>
       <div className="search-books-results">
 
