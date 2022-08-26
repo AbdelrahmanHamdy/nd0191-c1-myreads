@@ -1,6 +1,6 @@
 import ShelfTypes from "../shared/enums/ShelfTypes.enum";
 
-const BookCard = ({bookCard}) => {
+const BookCard = ({bookCard, onShelfChnage}) => {
     return (
         <li>
         <div className="book">
@@ -14,7 +14,7 @@ const BookCard = ({bookCard}) => {
                     }}
                 ></div>
                 <div className="book-shelf-changer">
-                    <select value={bookCard.shelf || ShelfTypes.NONE} onChange={() => {}}>
+                    <select value={bookCard.shelf || ShelfTypes.NONE} onChange={(e) => {onShelfChnage(e.target.value)}}>
                         <option value={null} disabled>
                             Move to...
                         </option>

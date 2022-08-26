@@ -13,7 +13,6 @@ const SearchPage = () => {
 
     const searchForBooks = async (query, maxResult) => {
       const res = await BooksAPI.search(query, maxResult);
-      console.log(res);
       setSearchResult(res);
     };
 

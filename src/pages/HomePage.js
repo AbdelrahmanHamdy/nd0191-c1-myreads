@@ -21,7 +21,6 @@ const HomePage = () => {
     useEffect(() => {
         const getAllBooks = async () => {
             const res = await BooksAPI.getAll();
-            console.log(res);
             setAllShelfs(res);
         };
 
