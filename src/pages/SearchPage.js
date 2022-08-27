@@ -39,13 +39,13 @@ const SearchPage = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-
+        
       </div>
       <div className="search-books-results">
 
         <ol className="books-grid">
 
-          {searchResult.length > 0 && searchResult.map((book) => <BookCard key={book.id} bookCard={book} onShelfChange={() => {}} />)}
+          {searchResult.length > 0 && searchResult.map((book) => <BookCard key={book.id} bookCard={book} />)}
 
         </ol>
 
