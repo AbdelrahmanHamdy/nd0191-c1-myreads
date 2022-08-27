@@ -9,10 +9,12 @@ import * as BooksAPI from "../BooksAPI";
 const HomePage = () => {
 
     const [currentlyReadingBooksShelf, setCurrentlyReadingBooksShelf] = useState([]);
+    const [allBooksShelfs, setAllBooksShelfs] = useState([]);
     const [wantToReadBooksShelf, setWantToReadBooksShelf] = useState([]);
     const [readBooksShelf, setReadBooksShelf] = useState([]);
 
     const setAllShelfs = (allShelfs) => {
+        setAllBooksShelfs(allShelfs);
         setCurrentlyReadingBooksShelf(allShelfs.filter((Shelf) => Shelf.shelf === ShelfTypes.CURRENTLY_READING));
         setWantToReadBooksShelf(allShelfs.filter((Shelf) => Shelf.shelf === ShelfTypes.WANT_TO_READ));
         setReadBooksShelf(allShelfs.filter((Shelf) => Shelf.shelf === ShelfTypes.READ));
@@ -27,6 +29,12 @@ const HomePage = () => {
         getAllBooks();
     }, []);
 
+    const updateShelfs = (bookId, newShelf) => {
+        
+        allBooksShelfs.find((book) => book.id === bookId).shelf = newShelf;
+        setAllShelfs(allBooksShelfs);
+    }
+
     return (
         <div className="list-books">
 
@@ -34,11 +42,14 @@ const HomePage = () => {
 
             <div className="list-books-content">
                 <div>
-                    {currentlyReadingBooksShelf.length > 0 && <BooksShelf shelf={currentlyReadingBooksShelf} shelfTitle={"Currently Reading"} />}
+                    {currentlyReadingBooksShelf.length > 0 && (<BooksShelf emitShelfChange={(bookId, newShelf) => { updateShelfs(bookId, newShelf) }}
+                        shelf={currentlyReadingBooksShelf} shelfTitle={"Currently Reading"} />)}
 
-                    {wantToReadBooksShelf.length > 0 && <BooksShelf shelf={wantToReadBooksShelf} shelfTitle={"Want to Read"} />}
+                    {wantToReadBooksShelf.length > 0 && (<BooksShelf emitShelfChange={(bookId, newShelf) => { updateShelfs(bookId, newShelf) }}
+                        shelf={wantToReadBooksShelf} shelfTitle={"Want to Read"} />)}
 
-                    {readBooksShelf.length > 0 && <BooksShelf shelf={readBooksShelf} shelfTitle={"Read"} />}
+                    {readBooksShelf.length > 0 && (<BooksShelf emitShelfChange={(bookId, newShelf) => { updateShelfs(bookId, newShelf) }}
+                        shelf={readBooksShelf} shelfTitle={"Read"} />)}
                 </div>
             </div>
 
