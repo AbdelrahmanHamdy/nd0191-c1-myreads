@@ -1,6 +1,21 @@
+import { useState } from "react";
+
+import * as BooksAPI from "../BooksAPI";
 import ShelfTypes from "../shared/enums/ShelfTypes.enum";
 
+
 const BookCard = ({bookCard, onShelfChange}) => {
+
+    /** Dunmmy state for component reloading purpose */
+    const [ , setMode] = useState("initial");
+
+    const updateBookShelf = async (book, newShelf) => {
+        await BooksAPI.update(book, newShelf);
+        bookCard.shelf = newShelf;
+        setMode("reload");
+        onShelfChange(book.id, newShelf);
+    };
+
     return (
         <li>
         <div className="book">
@@ -14,7 +29,7 @@ const BookCard = ({bookCard, onShelfChange}) => {
                     }}
                 ></div>
                 <div className="book-shelf-changer">
-                    <select value={bookCard.shelf || ShelfTypes.NONE} onChange={(e) => {onShelfChange(e.target.value)}}>
+                    <select value={bookCard.shelf || ShelfTypes.NONE} onChange={(e) => {updateBookShelf(bookCard, e.target.value)}}>
                         <option value={null} disabled>
                             Move to...
                         </option>
