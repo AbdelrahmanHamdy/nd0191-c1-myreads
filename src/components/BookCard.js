@@ -6,10 +6,18 @@ import * as BooksAPI from "../BooksAPI";
 import ShelfTypes from "../shared/enums/ShelfTypes.enum";
 
 
-const BookCard = ({bookCard, onShelfChange}) => {
+const BookCard = ({ bookCard, onShelfChange }) => {
 
     /** Dunmmy state for component reloading purpose */
-    const [ , setMode] = useState("initial");
+    const [, setMode] = useState("initial");
+
+    /** Available shelves options */
+    const shelves = [{ shelfName: null, shelfDisplayName: "Move to..." },
+    { shelfName: ShelfTypes.CURRENTLY_READING, shelfDisplayName: "Currently Reading" },
+    { shelfName: ShelfTypes.WANT_TO_READ, shelfDisplayName: "Want to Read" },
+    { shelfName: ShelfTypes.READ, shelfDisplayName: "Read" },
+    { shelfName: ShelfTypes.NONE, shelfDisplayName: "None" },
+    ];
 
     const updateBookShelf = async (book, newShelf) => {
         await BooksAPI.update(book, newShelf);
@@ -20,41 +28,35 @@ const BookCard = ({bookCard, onShelfChange}) => {
 
     return (
         <li>
-        <div className="book">
-            <div className="book-top">
-                <div
-                    className="book-cover"
-                    style={{
-                        width: 128,
-                        height: 193,
-                        backgroundImage:`url(${bookCard?.imageLinks?.thumbnail})`,
-                    }}
-                ></div>
-                <div className="book-shelf-changer">
-                    <select value={bookCard.shelf || ShelfTypes.NONE} onChange={(e) => {updateBookShelf(bookCard, e.target.value)}}>
-                        <option value={null} disabled>
-                            Move to...
-                        </option>
-                        <option value={ShelfTypes.CURRENTLY_READING}>Currently Reading</option>
-                        <option value={ShelfTypes.WANT_TO_READ}>Want to Read</option>
-                        <option value={ShelfTypes.READ}>Read</option>
-                        <option value={ShelfTypes.NONE}>None</option>
-                    </select>
+            <div className="book">
+                <div className="book-top">
+                    <div
+                        className="book-cover"
+                        style={{
+                            width: 128,
+                            height: 193,
+                            backgroundImage: `url(${bookCard?.imageLinks?.thumbnail})`,
+                        }}
+                    ></div>
+                    <div className="book-shelf-changer">
+                        <select value={bookCard.shelf || ShelfTypes.NONE} onChange={(e) => { updateBookShelf(bookCard, e.target.value) }}>
+                           {shelves.map((shelve, index) => <option value={shelve.shelfName} disabled={index === 0}>{shelve.shelfDisplayName}</option>)}
+                        </select>
+                    </div>
                 </div>
+
+                <div className="book-title">{bookCard.title}</div>
+
+                {bookCard.authors && bookCard.authors.length > 0 && bookCard.authors.map((author, i) => <div key={"author" + i} className="book-authors">{author}</div>)}
+
             </div>
-
-            <div className="book-title">{bookCard.title}</div>
-
-            {bookCard.authors && bookCard.authors.length > 0 && bookCard.authors.map ((author, i) => <div key={"author"+i} className="book-authors">{author}</div> )}
-            
-        </div>
-    </li>
+        </li>
     );
 }
 
 BookCard.propTypes = {
     bookCard: PropTypes.object.isRequired,
     onShelfChange: PropTypes.func.isRequired,
-  }
+}
 
 export default BookCard;
