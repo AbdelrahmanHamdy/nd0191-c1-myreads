@@ -1,4 +1,6 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
+
 
 import * as BooksAPI from "../BooksAPI";
 import ShelfTypes from "../shared/enums/ShelfTypes.enum";
@@ -49,5 +51,10 @@ const BookCard = ({bookCard, onShelfChange}) => {
     </li>
     );
 }
+
+BookCard.propTypes = {
+    bookCard: PropTypes.object.isRequired,
+    onShelfChange: PropTypes.func.isRequired,
+  }
 
 export default BookCard;

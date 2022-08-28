@@ -1,4 +1,7 @@
+import PropTypes from "prop-types";
+
 import BookCard from "./BookCard";
+
 
 const BooksShelf = ({ shelfTitle, shelf, emitShelfChange }) => {
     return (
@@ -15,5 +18,11 @@ const BooksShelf = ({ shelfTitle, shelf, emitShelfChange }) => {
 
     );
 }
+
+BooksShelf.propTypes = {
+    shelfTitle: PropTypes.string.isRequired,
+    shelf: PropTypes.array.isRequired,
+    emitShelfChange: PropTypes.func.isRequired,
+  }
 
 export default BooksShelf;
