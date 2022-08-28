@@ -23,7 +23,9 @@ const BookCard = ({ bookCard, onShelfChange }) => {
         await BooksAPI.update(book, newShelf);
         bookCard.shelf = newShelf;
         setMode("reload");
-        onShelfChange(book.id, newShelf);
+        window.location.pathname === '/search' ?
+            onShelfChange(bookCard, newShelf) :
+            onShelfChange(book.id, newShelf);
     };
 
     return (
@@ -39,8 +41,8 @@ const BookCard = ({ bookCard, onShelfChange }) => {
                         }}
                     ></div>
                     <div className="book-shelf-changer">
-                        <select value={bookCard.shelf || ShelfTypes.NONE} onChange={(e) => { updateBookShelf(bookCard, e.target.value) }}>
-                           {shelves.map((shelve, index) => <option value={shelve.shelfName} disabled={index === 0}>{shelve.shelfDisplayName}</option>)}
+                        <select value={bookCard.shelf} onChange={(e) => { updateBookShelf(bookCard, e.target.value) }}>
+                            {shelves.map((shelve, index) => <option key={index} value={shelve.shelfName} disabled={index === 0}>{shelve.shelfDisplayName}</option>)}
                         </select>
                     </div>
                 </div>
